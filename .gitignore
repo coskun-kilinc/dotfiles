@@ -1,3 +1,9 @@
+# System Files
+.DS_Store
+.zshrc.local
+.python-version
+fishd.*
+
 # Compiled Lua sources
 luac.out
 
@@ -39,3 +45,13 @@ luac.out
 *.x86_64
 *.hex
 
+# Vim
+Session.vim
+.vim/bundle/
+.vimrc_sample
+.vim/ftdetect/Dockerfile.vim
+.vim/syntax/Dockerfile.vim
+.vim/snippets/
+
+# Fish local config
+.config/fish/fish_variables 
