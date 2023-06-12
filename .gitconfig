@@ -1,0 +1,14 @@
+[init]
+	defaultBranch = main
+[user]
+	name = Coskun Kilinc
+	email = 82747562+coskun-kilinc@users.noreply.github.com
+[core]
+	excludesfile = ~/.gitignore
+	editor = nvim
+	ignorecase = false
+[credential]
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[credential "https://dev.azure.com"]
+	useHttpPath = true
