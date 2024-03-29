@@ -1,4 +1,4 @@
-# Common recent settings file for Wireshark 4.0.6.
+# Common recent settings file for Wireshark 4.2.2.
 #
 # This file is regenerated each time Wireshark is quit
 # and when changing configuration profile.
@@ -16,7 +16,7 @@ recent.capture_file: /Users/coskunkilinc/Library/CloudStorage/OneDrive-DeakinUni
 recent.capture_file: /Users/coskunkilinc/Library/CloudStorage/OneDrive-DeakinUniversity/Year 3/Trimester 1/SIT202 - Computer Networks And Communication/Task 10.1P/Activity_2.pcapng
 recent.capture_file: /Users/coskunkilinc/Library/CloudStorage/OneDrive-DeakinUniversity/Year 3/Trimester 1/SIT202 - Computer Networks And Communication/Task 6.3H/QUIC Capture.pcapng
 
-######## Recent capture filters (latest last), cannot be altered through command line ########
+######## Recent capture filters (latest first), cannot be altered through command line ########
 
 
 ######## Recent display filters (latest last), cannot be altered through command line ########
@@ -34,10 +34,10 @@ recent.display_filter: ip ==128.184.237.249
 
 # Main window geometry.
 # Decimal numbers.
-gui.geometry_main_x: 1521
-gui.geometry_main_y: 25
-gui.geometry_main_width: 1919
-gui.geometry_main_height: 1053
+gui.geometry_main_x: 50
+gui.geometry_main_y: 40
+gui.geometry_main_width: 798
+gui.geometry_main_height: 993
 
 # Main window maximized.
 # TRUE or FALSE (case-insensitive).
@@ -46,14 +46,6 @@ gui.geometry_main_maximized: FALSE
 # Leftalign Action Buttons.
 # TRUE or FALSE (case-insensitive).
 gui.geometry_leftalign_actions: FALSE
-
-# Statusbar left pane size.
-# Decimal number.
-gui.geometry_status_pane: 250
-
-# Statusbar middle pane size.
-# Decimal number.
-gui.geometry_status_pane_right: 250
 
 # Last used Configuration Profile.
 gui.last_used_profile: Default

@@ -12,8 +12,6 @@ set fish_greeting ""
 
 set -gx TERM xterm-256color
 
-alias ll "exa -l --icons"
-alias lla "ll -a"
 
 # >>> theme >>>
 
@@ -26,10 +24,13 @@ set -g theme_hostname always
 # >>> aliases >>>
 alias ls "ls -p -G"
 alias la "ls -A"
-alias ll "ls -l"
-alias lla "ll -A"
+
+alias ll "exa -l --group-directories-first --git --icons"
+alias lla "exa -la --group-directories-first --git --icons"
 alias g git
-command -qv nvim && alias vim nvim
+
+
+alias html-to-md "pbpaste | pandoc -f html -t markdown | pbcopy"
 
 set -gx EDITOR nvim
 
