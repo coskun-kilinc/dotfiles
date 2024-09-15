@@ -11,4 +11,6 @@ else
     fi
 fi
 unset __conda_setup
-# <<< conda initialize <<<
+# <<< conda initialize <<<export PATH="/Users/coskunkilinc/.splashkit:$PATH"
+export PATH="/Users/coskunkilinc/.splashkit:$PATH"
+export PATH="/Users/coskunkilinc/.nvm:$PATH"

@@ -13,11 +13,22 @@ vim.opt.relativenumber = true
 vim.opt.wrap = true
 vim.opt.linebreak = true
 
+-- Enable break indent
+vim.opt.breakindent = true
+
+-- set tab behaviour
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+
+vim.opt.smartindent = true
+
 -- set line width to 80
-vim.opt.textwidth = 80
+-- vim.opt.textwidth = 80
 
 -- enable visible line width marker
-vim.opt.colorcolumn = '+1'
+vim.opt.colorcolumn = '80'
 
 -- Enable mouse mode
 vim.opt.mouse = 'a'
@@ -27,9 +38,6 @@ vim.opt.showmode = false
 
 -- Sync clipboard between OS and Neovim.
 vim.opt.clipboard = 'unnamedplus'
-
--- Enable break indent
-vim.opt.breakindent = true
 
 -- Save undo history
 vim.opt.undofile = true
@@ -114,8 +122,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- To install new plugins, add them to the list below and run :Lazy install
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
+  -- 'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
 
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
@@ -400,7 +407,8 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format lua code
         'prettier', -- Used to format javascript, typescript, etc.
-        -- 'latexindent', -- Used to format LaTeX code
+        'vale',
+        'latexindent', -- Used to format LaTeX code
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -438,6 +446,7 @@ require('lazy').setup({
         ltex = { 'latexindent' },
         latex = { 'latexindent' },
         tex = { 'latexindent' },
+        Markdown = { 'prettier', 'vale' },
       },
     },
     -- vim.api.nvim_create_autocmd('BufWritePre', {

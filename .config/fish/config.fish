@@ -1,12 +1,7 @@
 set fish_greeting (set_color green)"
- ********   **    ********   **      **
-/**/////   /**   **//////   /**     /**
-/**        /**  /**         /**     /**
-/*******   /**  /*********  /**********
-/**////    /**  ////////**  /**//////**
-/**        /**         /**  /**     /**
-/**        /**   ********   /**     /**
-//         //   ////////    //      // 
+░▀█▀░░░█░▒█░█▀▀░█▀▀░░░█▀▀▄░█▀▀░▄▀▀▄░▄░░░▄░░▀░░█▀▄▀█░░░█▀▀▄░▀█▀░█░░░█
+░▒█░░░░█░▒█░▀▀▄░█▀▀░░░█░▒█░█▀▀░█░░█░░█▄█░░░█▀░█░▀░█░░░█▀▀▄░░█░░▀▄█▄▀
+░▄█▄░░░░▀▀▀░▀▀▀░▀▀▀░░░▀░░▀░▀▀▀░░▀▀░░░░▀░░░▀▀▀░▀░░▒▀░░░▀▀▀▀░░▀░░░▀░▀░
 "
 # set fish_greeting ""
 
@@ -24,9 +19,10 @@ set -g theme_hostname always
 # >>> aliases >>>
 alias ls "ls -p -G"
 alias la "ls -A"
-
-alias ll "exa -l --group-directories-first --git --icons"
-alias lla "exa -la --group-directories-first --git --icons"
+# alias ll "lsd -l"
+# alias lla "lsd -la"
+alias ll "lsd -l --group-directories-first --git"
+alias lla "lsd -la --group-directories-first --git"
 alias g git
 alias lg lazygit
 
@@ -51,6 +47,7 @@ end
 # >>> add brew to path >>>
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
+
 
 
 set LOCAL_CONFIG (dirname (status --current-filename))/config-local.fish
