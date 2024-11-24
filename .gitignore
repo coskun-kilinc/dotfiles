@@ -55,3 +55,6 @@ Session.vim
 
 # Fish local config
 .config/fish/fish_variables 
+
+# Github Copilot
+.config/github-copilot
