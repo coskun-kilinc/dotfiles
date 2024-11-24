@@ -11,8 +11,8 @@ classic: false
 # Possible values: permission, user, group, context, size, date, name, inode, links, git
 blocks:
   - permission
-  # - user
-  # - group
+  - user
+  - group
   - size
   - date
   - name
@@ -41,7 +41,7 @@ date: '+%d %b %y %I:%M %p'
 # == Dereference ==
 # Whether to dereference symbolic links.
 # Possible values: false, true
-dereference: false
+dereference: true
 
 # == Display ==
 # What items to display. Do not specify this for the default behavior.
@@ -143,6 +143,6 @@ literal: false
 # number of characters.
 truncate-owner:
   # Number of characters to keep. By default, no truncation is done (empty value).
-  after:
+  after: 6
   # String to be appended to a name if truncated.
-  marker: ""
+  marker: "…"
