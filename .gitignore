@@ -1,0 +1,47 @@
+# System Files
+.DS_Store
+
+# Exclude Sensitive Files
+*.pem
+*.key
+*.crt
+*.p12
+*.enc
+*.ovpn
+*.gpg
+.env
+.config/secrets
+
+
+# ~/.dotfiles/emacs/.gitignore
+auto-save-list/
+company-statistics-cache.el
+elpa/
+emacs/.emacs.d/*~
+eshell/history
+eshell/lastdir
+games/
+org-clock-save.el
+projectile-bookmarks.eld
+recentf
+savehist/
+url/
+
+# Fish universal variables file (machine-specific)
+fish/.config/fish/fish_variables
+
+# Fisher and tide cache files (machine-specific, auto-generated)
+fish/.config/fish/functions/_tide_*
+fish/.config/fish/completions/tide.fish
+fish/.config/fish/conf.d/_tide_init.fish
+fish/.config/fish/tide*
+
+# Fisher plugins lock file (auto-generated)
+fish/.config/fish/fish_plugins
+
+# Fisher package manager backup files
+fish/.config/fish/fishfile
+
+# Any other Fish shell cache files
+fish/.config/fish/.cache/
+fish/.config/fish/cache/
