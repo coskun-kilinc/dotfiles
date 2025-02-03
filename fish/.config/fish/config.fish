@@ -3,12 +3,9 @@ set fish_greeting (set_color green)"
 ░▒█░░░░█░▒█░▀▀▄░█▀▀░░░█░▒█░█▀▀░█░░█░░█▄█░░░█▀░█░▀░█░░░█▀▀▄░░█░░▀▄█▄▀
 ░▄█▄░░░░▀▀▀░▀▀▀░▀▀▀░░░▀░░▀░▀▀▀░░▀▀░░░░▀░░░▀▀▀░▀░░▒▀░░░▀▀▀▀░░▀░░░▀░▀░
 "
-# set fish_greeting ""
-
 set -gx TERM xterm-256color
 
 # >>> theme >>>
-
 set -g theme_color_scheme terminal-dark
 set -g fish_prompt_pwd_dir_length 1
 set -g theme_display_user yes
@@ -20,6 +17,9 @@ alias ls "ls -p -G"
 alias la "ls -A"
 alias ll "lsd -l --group-directories-first --git"
 alias lla "lsd -la --group-directories-first --git"
+
+# >>> easy access to obsidian vault
+alias obs="nvim ~/Library/Mobile\ Documents/iCloud~md~obsidian/Documents/Obsidian\ Vault"
 
 # >>> git aliases >>>
 alias g git
@@ -49,6 +49,10 @@ set -gx PATH ~/.local/bin $PATH
 set -gx PATH /Applications/Emacs.app/Contents/MacOS/bin $PATH
 set -gx PATH /Applications/Emacs.app/Contents/MacOS/libexec $PATH
 set -gx PATH /Applications/Emacs.app/Contents/MacOS $PATH
+
+
+set -U fish_user_paths /opt/homebrew/bin/ltex-ls $fish_user_paths
+
 
 # >>> set up dotfiles >>>
 set -x STOW_DIR ~/.dotfiles

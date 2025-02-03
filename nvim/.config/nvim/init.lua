@@ -485,19 +485,38 @@ require('lazy').setup({
         -- },
         -- rust_analyzer = {},
         ltex = {
+          cmd = { '/opt/homebrew/bin/ltex-ls' }, -- Use explicitly installed ltex-ls
+          on_attach = function(client, bufnr)
+            -- Ensure `settings` table exists
+            client.config.settings = client.config.settings or {}
+            client.config.settings.ltex = client.config.settings.ltex or {}
+            client.config.settings.ltex.disabledRules = client.config.settings.ltex.disabledRules or { ['en-AU'] = {} }
+
+            -- Append DASH_RULE only for Markdown files
+            if vim.bo[bufnr].filetype == 'markdown' then
+              local disabled_rules = client.config.settings.ltex.disabledRules['en-AU']
+
+              -- Avoid duplicate entries
+              if not vim.tbl_contains(disabled_rules, 'DASH_RULE') then
+                table.insert(disabled_rules, 'DASH_RULE')
+              end
+
+              if not vim.tbl_contains(disabled_rules, 'OXFORD_SPELLING_Z_NOT_S') then
+                table.insert(disabled_rules, 'OXFORD_SPELLING_Z_NOT_S')
+              end
+            end
+
+            -- Apply updated settings to the LSP server
+            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+          end,
           settings = {
             ltex = {
-              logLevel = 'severe',
               language = 'en-AU',
               additionalRules = {
                 motherTongue = 'en-AU',
                 enablePickyRules = true,
-
                 languageModel = '',
                 neuralNetworkModel = '',
-              },
-              disabledRules = {
-                ['en'] = { 'OXFORD_SPELLING_Z_NOT_S' },
               },
               latex = {
                 environments = {
@@ -515,6 +534,14 @@ require('lazy').setup({
                 ['en-AU'] = load_dictionary(vim.fn.getcwd() .. '/ltex.dictionary.en-AU.txt'),
               },
             },
+          },
+          handlers = {
+            ['workspace/executeCommand'] = function(err, result, ctx, config)
+              if err then
+                vim.notify('LSP Error: ' .. err.message, vim.log.levels.ERROR)
+                return
+              end
+            end,
           },
         },
         latexindent = {},
@@ -725,7 +752,6 @@ require('lazy').setup({
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'tokyonight-night'
-
       -- You can configure highlights by doing something like
       vim.cmd.hi 'Comment gui=none'
     end,
