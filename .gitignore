@@ -45,3 +45,7 @@ fish/.config/fish/fishfile
 # Any other Fish shell cache files
 fish/.config/fish/.cache/
 fish/.config/fish/cache/
+
+
+# Copilot
+github-copilot/
