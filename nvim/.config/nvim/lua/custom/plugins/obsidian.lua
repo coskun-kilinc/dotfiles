@@ -23,5 +23,8 @@ return {
         path = vim.fn.expand '~' .. '/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault',
       },
     },
+    ui = {
+      enable = false,
+    },
   },
 }

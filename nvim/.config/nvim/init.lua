@@ -23,6 +23,8 @@ vim.opt.shiftwidth = 4
 vim.opt.expandtab = true
 
 vim.opt.smartindent = true
+vim.opt.formatoptions:append 'n'
+vim.o.breakindentopt = 'list:-1'
 
 -- set line width
 vim.opt.textwidth = 100
@@ -170,6 +172,16 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.api.nvim_command 'filetype plugin indent on'
 vim.api.nvim_command 'syntax enable'
 vim.g.vimtex_view_method = 'skim'
+vim.g.vimtex_compiler_latexmk = {
+  options = {
+    '-xelatex',
+    '-shell-escape',
+    '-bibtex',
+    '-file-line-error',
+    '-synctex=1',
+    '-interaction=nonstopmode',
+  },
+}
 
 -- [[ Basic Autocommands ]]
 
@@ -288,12 +300,26 @@ require('lazy').setup({
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
+      local telescope = require 'telescope'
+      local actions = require 'telescope.actions'
       require('telescope').setup {
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
+        defaults = {
+          mappings = {
+            i = {
+              ['<c-enter>'] = 'to_fuzzy_refine',
+              ['<C-l>'] = function(prompt_bufnr)
+                actions.smart_send_to_loclist(prompt_bufnr)
+                vim.cmd 'lopen'
+              end,
+            },
+            n = {
+              ['<C-l>'] = function(prompt_bufnr)
+                actions.smart_send_to_loclist(prompt_bufnr)
+                vim.cmd 'lopen'
+              end,
+            },
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
@@ -316,6 +342,8 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
+
+      vim.keymap.set('n', '<leader>st', builtin.treesitter, { desc = '[S]yntax [T]reesitter Symbols' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
@@ -642,6 +670,7 @@ require('lazy').setup({
         python = { 'isort', 'black' },
         tex = { 'latexindent', timeout_ms = 2000 },
         ltex = { 'latexindent', timeout_ms = 2000 },
+        markdown = { 'prettier', timeout_ms = 2000 },
       },
     },
   },
@@ -772,6 +801,7 @@ require('lazy').setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require('mini.surround').setup()
+      require('mini.align').setup()
 
       -- Simple and easy statusline.
       local statusline = require 'mini.statusline'
@@ -787,6 +817,11 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
+  {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    event = 'VeryLazy',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+  },
 
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
@@ -796,11 +831,23 @@ require('lazy').setup({
 
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
-        ensure_installed = { 'bash', 'c', 'cpp', 'html', 'lua', 'latex', 'markdown', 'markdown_inline', 'python', 'vim', 'vimdoc' },
+        ensure_installed = { 'bash', 'c', 'cpp', 'html', 'lua', 'latex', 'markdown', 'markdown_inline', 'python', 'ruby', 'vim', 'vimdoc' },
         -- Autoinstall languages that are not installed
         auto_install = true,
-        highlight = { enable = true, disable = { 'latex' }, additional_vim_regex_highlighting = { 'latex' } },
+        highlight = { enable = true, disable = { 'latex' }, additional_vim_regex_highlighting = { 'latex', 'markdown' } },
         indent = { enable = true },
+        textobjects = {
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+            },
+          },
+        },
       }
 
       -- There are additional nvim-treesitter modules that you can use to interact
