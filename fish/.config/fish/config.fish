@@ -51,9 +51,6 @@ set -gx PATH /Applications/Emacs.app/Contents/MacOS/libexec $PATH
 set -gx PATH /Applications/Emacs.app/Contents/MacOS $PATH
 
 
-set -U fish_user_paths /opt/homebrew/bin/ltex-ls $fish_user_paths
-
-
 # >>> set up dotfiles >>>
 set -x STOW_DIR ~/.dotfiles
 
