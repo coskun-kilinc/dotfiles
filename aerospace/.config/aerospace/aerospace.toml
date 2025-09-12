@@ -1,113 +1,116 @@
-# Place a copy of this config to ~/.aerospace.toml
-# After that, you can edit ~/.aerospace.toml to your liking
+# AeroSpace Window Manager Configuration
 
-# It's not necessary to copy all keys to your config.
-# If the key is missing in your config, "default-config.toml" will serve as a fallback
+# ----------------------------------------
+# Startup and Session Management
+# ----------------------------------------
 
-# You can use it to add commands that run after login to macOS user session.
-# 'start-at-login' needs to be 'true' for 'after-login-command' to work
-# Available commands: https://nikitabobko.github.io/AeroSpace/commands
+# Commands to be executed after user login
 after-login-command = []
 
-# You can use it to add commands that run after AeroSpace startup.
-# 'after-startup-command' is run after 'after-login-command'
-# Available commands : https://nikitabobko.github.io/AeroSpace/commands
+# Commands to be executed after AeroSpace starts
 after-startup-command = []
 
-# Start AeroSpace at login
-start-at-login = false 
+# Automatically start AeroSpace on login
+start-at-login = true
 
-# Normalizations. See: https://nikitabobko.github.io/AeroSpace/guide#normalization
+# ----------------------------------------
+# Window Normalization Settings
+# ----------------------------------------
+
+# Flatten nested containers when normalizing layouts
 enable-normalization-flatten-containers = true
+
+# Adjust container orientation when nested inside another container
 enable-normalization-opposite-orientation-for-nested-containers = true
 
-# See: https://nikitabobko.github.io/AeroSpace/guide#layouts
-# The 'accordion-padding' specifies the size of accordion padding
-# You can set 0 to disable the padding feature
+# Spacing adjustment for accordion layout
 accordion-padding = 30
 
-# Possible values: tiles|accordion
+# ----------------------------------------
+# Default Layout and Orientation
+# ----------------------------------------
+
+# Layout for the root container
+# Options: 'tiles' (default tiling) | 'accordion' (stacked accordion style)
 default-root-container-layout = 'tiles'
 
-# Possible values: horizontal|vertical|auto
-# 'auto' means: wide monitor (anything wider than high) gets horizontal orientation,
-#               tall monitor (anything higher than wide) gets vertical orientation
+# Default orientation for the root container
+# Options:
+#  - 'horizontal' (default to horizontal layout)
+#  - 'vertical' (default to vertical layout)
+#  - 'auto' (automatically determine based on monitor dimensions)
 default-root-container-orientation = 'auto'
 
-# Possible values: (qwerty|dvorak)
-# See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
+# ----------------------------------------
+# Input Settings
+# ----------------------------------------
+
+# Keyboard layout preset
 key-mapping.preset = 'qwerty'
 
-# Mouse follows focus when focused monitor changes
-# Drop it from your config, if you don't like this behavior
-# See https://nikitabobko.github.io/AeroSpace/guide#on-focus-changed-callbacks
-# See https://nikitabobko.github.io/AeroSpace/commands#move-mouse
+# Ensure mouse cursor follows focused monitor change
 on-focused-monitor-changed = ['move-mouse monitor-lazy-center']
 
-# Gaps between windows (inner-*) and between monitor edges (outer-*).
-# Possible values:
-# - Constant:     gaps.outer.top = 8
-# - Per monitor:  gaps.outer.top = [{ monitor.main = 16 }, { monitor."some-pattern" = 32 }, 24]
-#                 In this example, 24 is a default value when there is no match.
-#                 Monitor pattern is the same as for 'workspace-to-monitor-force-assignment'.
-#                 See: https://nikitabobko.github.io/AeroSpace/guide#assign-workspaces-to-monitors
-[gaps]
-inner.horizontal = 10
-inner.vertical =   10
-outer.left =       10
-outer.bottom =     10
-outer.top =        10
-outer.right =      10
+# ----------------------------------------
+# Window and Monitor Gaps
+# ----------------------------------------
 
-# 'main' binding mode declaration
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
-# 'main' binding mode must be always presented
+# Defines gaps between windows (inner-*) and gaps between windows and monitor edges (outer-*)
+[gaps]
+inner.horizontal = 10  # Horizontal gap between windows
+inner.vertical = 10    # Vertical gap between windows
+outer.left = 10        # Gap on the left edge of the monitor
+outer.bottom = 10      # Gap on the bottom edge of the monitor
+outer.top = 10         # Gap on the top edge of the monitor
+outer.right = 10       # Gap on the right edge of the monitor
+
+# ----------------------------------------
+# Keybindings: Main Mode
+# ----------------------------------------
+
+# The 'main' mode must always be defined.
 [mode.main.binding]
 
-# All possible keys:
-# - Letters.        a, b, c, ..., z
-# - Numbers.        0, 1, 2, ..., 9
-# - Keypad numbers. keypad0, keypad1, keypad2, ..., keypad9
-# - F-keys.         f1, f2, ..., f20
-# - Special keys.   minus, equal, period, comma, slash, backslash, quote, semicolon, backtick,
-#                   leftSquareBracket, rightSquareBracket, space, enter, esc, backspace, tab
-# - Keypad special. keypadClear, keypadDecimalMark, keypadDivide, keypadEnter, keypadEqual,
-#                   keypadMinus, keypadMultiply, keypadPlus
-# - Arrows.         left, down, up, right
+# Window Navigation (i3-style movement)
+alt-h = 'focus --boundaries-action wrap-around-the-workspace left'
+alt-j = 'focus --boundaries-action wrap-around-the-workspace down'
+alt-k = 'focus --boundaries-action wrap-around-the-workspace up'
+alt-l = 'focus --boundaries-action wrap-around-the-workspace right'
 
-# All possible modifiers: cmd, alt, ctrl, shift
-
-# All possible commands: https://nikitabobko.github.io/AeroSpace/commands
-
-# You can uncomment this line to open up terminal with alt + enter shortcut
-# See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
-# alt-enter = 'exec-and-forget open -n /System/Applications/Utilities/Terminal.app'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#layout
-alt-slash = 'layout tiles horizontal vertical'
-alt-comma = 'layout accordion horizontal vertical'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#focus
-alt-h = 'focus left'
-alt-j = 'focus down'
-alt-k = 'focus up'
-alt-l = 'focus right'
-
-# See: https://nikitabobko.github.io/AeroSpace/commands#move
+# Moving windows in the workspace
 alt-shift-h = 'move left'
 alt-shift-j = 'move down'
 alt-shift-k = 'move up'
 alt-shift-l = 'move right'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#resize
-alt-shift-minus = 'resize smart -100'
-alt-shift-equal = 'resize smart +100'
+# Window resizing commands
+# Reduce window size
+ctrl-shift-minus = 'resize smart -100'
+# Increase window size
+ctrl-shift-equal = 'resize smart +100'
+# Balance window sizes evenly
 cmd-shift-equal = 'balance-sizes'
 
-# Fullscreen current window
-alt-enter = 'fullscreen'
+# Layout Normalization
+# alt-h = 'join-with horizontal'  # Merge container horizontally
+# alt-v = 'join-with vertical'    # Merge container vertically
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace
+# Fullscreen mode toggle
+alt-shift-f = 'fullscreen'
+
+# Change window layout
+alt-s = 'layout v_accordion'    # Vertical accordion layout
+alt-w = 'layout h_accordion'    # Horizontal accordion layout
+alt-e = 'layout tiles horizontal vertical'  # Adaptive tiling layout
+
+# Toggle between floating and tiling modes
+alt-shift-space = 'layout floating tiling'
+
+# ----------------------------------------
+# Workspace Management
+# ----------------------------------------
+
+# Switch between workspaces using Alt + [1-9]
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
@@ -117,81 +120,165 @@ alt-6 = 'workspace 6'
 alt-7 = 'workspace 7'
 alt-8 = 'workspace 8'
 alt-9 = 'workspace 9'
-# alt-a = 'workspace A' # In your config, you can drop workspace bindings that you don't need
-# alt-b = 'workspace B'
-# alt-c = 'workspace C'
-# alt-d = 'workspace D'
-# alt-e = 'workspace E'
-# alt-f = 'workspace F'
-# alt-g = 'workspace G'
-# alt-i = 'workspace I'
-# alt-m = 'workspace M'
-# alt-n = 'workspace N'
-# alt-o = 'workspace O'
-# alt-p = 'workspace P'
-# alt-q = 'workspace Q'
-# alt-r = 'workspace R'
-# alt-s = 'workspace S'
-# alt-t = 'workspace T'
-# alt-u = 'workspace U'
-# alt-v = 'workspace V'
-# alt-w = 'workspace W'
-# alt-x = 'workspace X'
-# alt-y = 'workspace Y'
-# alt-z = 'workspace Z'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
-alt-shift-1 = 'move-node-to-workspace 1'
-alt-shift-2 = 'move-node-to-workspace 2'
-alt-shift-3 = 'move-node-to-workspace 3'
-alt-shift-4 = 'move-node-to-workspace 4'
-alt-shift-5 = 'move-node-to-workspace 5'
-alt-shift-6 = 'move-node-to-workspace 6'
-alt-shift-7 = 'move-node-to-workspace 7'
-alt-shift-8 = 'move-node-to-workspace 8'
-alt-shift-9 = 'move-node-to-workspace 9'
+# Move the currently focused window to a specific workspace
+alt-shift-1 = 'move-node-to-workspace 1 --focus-follows-window'
+alt-shift-2 = 'move-node-to-workspace 2 --focus-follows-window'
+alt-shift-3 = 'move-node-to-workspace 3 --focus-follows-window'
+alt-shift-4 = 'move-node-to-workspace 4 --focus-follows-window'
+alt-shift-5 = 'move-node-to-workspace 5 --focus-follows-window'
+alt-shift-6 = 'move-node-to-workspace 6 --focus-follows-window'
+alt-shift-7 = 'move-node-to-workspace 7 --focus-follows-window'
+alt-shift-8 = 'move-node-to-workspace 8 --focus-follows-window'
+alt-shift-9 = 'move-node-to-workspace 9 --focus-follows-window'
 
-# alt-shift-a = 'move-node-to-workspace A'
-# alt-shift-b = 'move-node-to-workspace B'
-# alt-shift-c = 'move-node-to-workspace C'
-# alt-shift-d = 'move-node-to-workspace D'
-# alt-shift-e = 'move-node-to-workspace E'
-# alt-shift-f = 'move-node-to-workspace F'
-# alt-shift-g = 'move-node-to-workspace G'
-# alt-shift-i = 'move-node-to-workspace I'
-# alt-shift-m = 'move-node-to-workspace M'
-# alt-shift-n = 'move-node-to-workspace N'
-# alt-shift-o = 'move-node-to-workspace O'
-# alt-shift-p = 'move-node-to-workspace P'
-# alt-shift-q = 'move-node-to-workspace Q'
-# alt-shift-r = 'move-node-to-workspace R'
-# alt-shift-s = 'move-node-to-workspace S'
-# alt-shift-t = 'move-node-to-workspace T'
-# alt-shift-u = 'move-node-to-workspace U'
-# alt-shift-v = 'move-node-to-workspace V'
-# alt-shift-w = 'move-node-to-workspace W'
-# alt-shift-x = 'move-node-to-workspace X'
-# alt-shift-y = 'move-node-to-workspace Y'
-# alt-shift-z = 'move-node-to-workspace Z'
+# Move workspace to a specific monitor
+alt-ctrl-1 = 'move-workspace-to-monitor 1'
+alt-ctrl-2 = 'move-workspace-to-monitor 2'
+alt-ctrl-3 = 'move-workspace-to-monitor 3'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
-alt-tab = 'workspace-back-and-forth'
-# See: https://nikitabobko.github.io/AeroSpace/commands#move-workspace-to-monitor
-alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#mode
+# ----------------------------------------
+# Mode Switching
+# ----------------------------------------
+
+# Switch to service mode
 alt-shift-semicolon = 'mode service'
 
-# 'service' binding mode declaration.
-# See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
+# Switch to resize mode
+alt-r = 'mode resize'
+
+# Reload AeroSpace configuration
+alt-shift-c = 'reload-config'
+
+
+
+# ----------------------------------------
+# Service Mode Keybindings
+# ----------------------------------------
+
 [mode.service.binding]
+
+# Exit service mode and return to main mode
 esc = ['reload-config', 'mode main']
-r = ['flatten-workspace-tree', 'mode main'] # reset layout
-#s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
-f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
+
+# Reset layout by flattening workspace tree
+r = ['flatten-workspace-tree', 'mode main']
+
+# Toggle floating/tiling mode
+f = ['layout floating tiling', 'mode main']
+
+# Close all windows except the current one
 backspace = ['close-all-windows-but-current', 'mode main']
 
+# Merge windows into a single container in different directions
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
+
+# ----------------------------------------
+# Resize Mode Keybindings
+# ----------------------------------------
+
+[mode.resize.binding]
+
+# Resize windows using h/j/k/l keys
+h = 'resize width -50'   # Shrink width
+j = 'resize height +50'  # Increase height
+k = 'resize height -50'  # Shrink height
+l = 'resize width +50'   # Increase width
+
+# Exit resize mode
+enter = 'mode main'
+esc = 'mode main'
+
+
+# ----------------------------------------
+# App Workspace Mapping
+# ----------------------------------------
+
+# Layout:
+#    - 1: Terminal, skim, ChatGPT app
+#    - 2: Productivity: Browsers (Safari, Firefox), MS Teams, OmniFocus, Zotero, Obsidian
+#    - 3: Social: Discord, Messages
+#    - 4: Entertainment: Spotify
+#
+# 894   | com.apple.finder              | Finder
+# 1302  | com.apple.MobileSMS           | Messages
+# 1341  | com.hnc.Discord               | Discord
+# 1447  | com.spotify.client            | Spotify
+# 1813  | com.openai.chat               | ChatGPT
+# 23419 | com.apple.iCal                | Calendar
+# 42021 | com.apple.ActivityMonitor     | Activity Monitor
+# 42239 | com.microsoft.teams2          | Microsoft Teams
+# 59491 | org.zotero.zotero             | Zotero
+# 67861 | com.electron.dockerdesktop    | Docker Desktop
+# 67953 | com.microsoft.VSCode          | Code
+# 68759 | com.apple.iBooksX             | Books
+# 69956 | net.sourceforge.skim-app.skim | Skim
+# 74452 | com.googlecode.iterm2         | iTerm2
+# 81216 | md.obsidian                   | Obsidian
+# 4135  | com.omnigroup.OmniFocus4      | OmniFocus
+# 4212  | com.microsoft.Word            | Microsoft Word
+# 66759 | org.mozilla.firefox           | Firefox
+
+# ----------------------------------------
+# Workspace 1: Terminal, Skim, ChatGPT
+# ----------------------------------------
+
+[[on-window-detected]]
+    if .app-id = "com.googlecode.iterm2"
+    run = 'move-node-to-workspace 1' 
+[[on-window-detected]]
+    if .app-id = "net.sourceforge.skim-app.skim"
+    run = 'move-node-to-workspace 1' 
+[[on-window-detected]]
+    if .app-id = "com.openai.chat"
+    run = 'move-node-to-workspace 1' 
+[[on-window-detected]]
+    if .app-id = "com.electron.dockerdesktop"
+    run = 'move-node-to-workspace 1'
+
+# ----------------------------------------
+# Workspace 2: Browsers, MS Teams, OmniFocus, Zotero, Obsidian
+# ----------------------------------------
+
+[[on-window-detected]]
+    if .app-id = "org.mozilla.firefox"
+    run = 'move-node-to-workspace 2' 
+[[on-window-detected]]
+    if .app-id = "com.apple.Safari"
+    run = 'move-node-to-workspace 2' 
+[[on-window-detected]]
+    if .app-id = "com.omnigroup.OmniFocus4"
+    run = 'move-node-to-workspace 2' 
+[[on-window-detected]]
+    if .app-id = "com.microsoft.teams2"
+    run = 'move-node-to-workspace 2' 
+[[on-window-detected]]
+    if .app-id = "org.zotero.zotero"
+    run = 'move-node-to-workspace 2' 
+[[on-window-detected]]
+    if .app-id = "md.obsidian"
+    run = 'move-node-to-workspace 2'
+
+# ----------------------------------------
+# Workspace 3: Discord, Messages
+# ----------------------------------------
+
+[[on-window-detected]]
+    if .app-id = "com.hnc.Discord"
+    run = 'move-node-to-workspace 3' 
+[[on-window-detected]]
+    if .app-id = "com.apple.MobileSMS"
+    run = 'move-node-to-workspace 3'
+
+
+# ----------------------------------------
+# Workspace 4: Spotify
+# ----------------------------------------
+
+[[on-window-detected]]
+    if .app-id = "com.spotify.client"
+    run = 'move-node-to-workspace 4'
