@@ -388,8 +388,8 @@ require('lazy').setup({
     'neovim/nvim-lspconfig',
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for neovim
-      'williamboman/mason.nvim',
-      'williamboman/mason-lspconfig.nvim',
+      'mason-org/mason.nvim',
+      'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
@@ -494,7 +494,28 @@ require('lazy').setup({
       --  For example, to see the options for `lua_ls`, you could go to:
       --  https://luals.github.io/wiki/settings/
       local servers = {
+        ts_ls = {},
         clangd = { cmd = { 'clangd', '--offset-encoding=utf-16' } },
+        ltex = {
+          settings = {
+            ltex = {
+              language = 'en-AU',
+              additionalRules = {
+                motherTongue = 'en-AU',
+                enablePickyRules = true,
+              },
+              disabledRules = {
+                ['en-AU'] = {
+                  'MORFOLOGIK_RULE_EN_US',
+                  'EN_US_SIMPLE_REPLACE',
+                  'EN_GB_SIMPLE_REPLACE',
+                  'OXFORD_SPELLING_Z_NOT_S',
+                },
+              },
+            },
+          },
+        },
+
         -- gopls = {},
         -- pyright = {
         --     on_attach = function(client)
@@ -512,85 +533,12 @@ require('lazy').setup({
         --
         -- },
         -- rust_analyzer = {},
-        ltex = {
-          cmd = { '/opt/homebrew/bin/ltex-ls' }, -- Use explicitly installed ltex-ls
-          on_attach = function(client, bufnr)
-            -- Ensure `settings` table exists
-            client.config.settings = client.config.settings or {}
-            client.config.settings.ltex = client.config.settings.ltex or {}
-            client.config.settings.ltex.disabledRules = client.config.settings.ltex.disabledRules or { ['en-AU'] = {} }
-
-            -- Append DASH_RULE only for Markdown files
-            if vim.bo[bufnr].filetype == 'markdown' then
-              local disabled_rules = client.config.settings.ltex.disabledRules['en-AU']
-
-              -- Avoid duplicate entries
-              if not vim.tbl_contains(disabled_rules, 'DASH_RULE') then
-                table.insert(disabled_rules, 'DASH_RULE')
-              end
-
-              if not vim.tbl_contains(disabled_rules, 'OXFORD_SPELLING_Z_NOT_S') then
-                table.insert(disabled_rules, 'OXFORD_SPELLING_Z_NOT_S')
-              end
-            end
-
-            -- Apply updated settings to the LSP server
-            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
-          end,
-          settings = {
-            ltex = {
-              language = 'en-AU',
-              additionalRules = {
-                motherTongue = 'en-AU',
-                enablePickyRules = true,
-                languageModel = '',
-                neuralNetworkModel = '',
-              },
-              latex = {
-                environments = {
-                  lstlisting = 'ignore',
-                  verbatim = 'ignore',
-                  minted = 'ignore',
-                  texttt = 'ignore',
-                },
-                commands = {
-                  mintinline = 'ignore',
-                  ['texttt'] = 'ignore',
-                },
-              },
-              dictionary = {
-                ['en-AU'] = load_dictionary(vim.fn.getcwd() .. '/ltex.dictionary.en-AU.txt'),
-              },
-            },
-          },
-          handlers = {
-            ['workspace/executeCommand'] = function(err, result, ctx, config)
-              if err then
-                vim.notify('LSP Error: ' .. err.message, vim.log.levels.ERROR)
-                return
-              end
-            end,
-          },
-        },
-        latexindent = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes { ...},
           -- capabilities = {},
           settings = {
             Lua = {
-              runtime = { version = 'LuaJIT' },
-              workspace = {
-                checkThirdParty = false,
-                -- Tells lua_ls where to find all the Lua files that you have loaded
-                -- for your neovim configuration.
-                library = {
-                  '${3rd}/luv/library',
-                  unpack(vim.api.nvim_get_runtime_file('', true)),
-                },
-                -- If lua_ls is really slow on your computer, you can try this instead:
-                -- library = { vim.env.VIMRUNTIME },
-              },
               completion = {
                 callSnippet = 'Replace',
               },
@@ -610,7 +558,8 @@ require('lazy').setup({
 
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
+      local servers_to_install = vim.tbl_keys(servers or {})
+      local ensure_installed = vim.deepcopy(servers_to_install)
       vim.list_extend(ensure_installed, {
         'stylua',
         'latexindent',
@@ -618,17 +567,22 @@ require('lazy').setup({
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        ensure_installed = servers_to_install,
       }
+
+      local use_native_lsp = vim.fn.has 'nvim-0.11' == 1 and vim.lsp.config and vim.lsp.enable
+      for server_name, server in pairs(servers) do
+        -- This handles overriding only values explicitly passed
+        -- by the server configuration above. Useful when disabling
+        -- certain features of an LSP (for example, turning off formatting for ts_ls)
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        if use_native_lsp then
+          vim.lsp.config(server_name, server)
+          vim.lsp.enable(server_name)
+        else
+          require('lspconfig')[server_name].setup(server)
+        end
+      end
     end,
   },
 

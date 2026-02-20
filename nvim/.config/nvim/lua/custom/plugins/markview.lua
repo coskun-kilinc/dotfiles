@@ -7,6 +7,7 @@ return {
   },
   config = function()
     require('markview').setup {
+      experimental = { check_rtp = false },
       markdown = {
         list_items = {
           enable = true,
